@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ઔચિત્ય: જીવનનો આનંદ માર્ગ | Appropriateness: The Path to a Joyful Life</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Hind+Vadodara:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Hind Vadodara', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .gujarati {
+            font-family: 'Hind Vadodara', sans-serif;
+        }
+        .english {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .lang-btn.active {
+            background-color: #4f46e5; /* Indigo 600 */
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .lang-btn {
+            transition: all 0.3s;
+        }
+        .section-icon {
+            background-color: rgba(79, 70, 229, 0.1);
+            color: #4f46e5;
+        }
+    </style>
+</head>
+<body class="gradient-bg text-gray-800">
+
+    <div class="max-w-3xl mx-auto p-4 md:p-6">
+
+        <!-- Header and Language Switcher -->
+        <header class="sticky top-0 z-20 py-3 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg mb-8">
+            <div class="container mx-auto flex justify-between items-center px-4">
+                <h1 class="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 lang-text gujarati" data-lang-key="main_title">ઔચિત્ય</h1>
+                <div class="flex border border-gray-300 rounded-lg p-1">
+                    <button id="lang-gu" class="lang-btn px-3 py-1 text-sm md:text-base rounded-md">ગુજરાતી</button>
+                    <button id="lang-en" class="lang-btn px-3 py-1 text-sm md:text-base rounded-md">English</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="space-y-10">
+
+            <!-- Hero Section -->
+            <section class="text-center p-8 card rounded-2xl shadow-xl">
+                <h2 class="text-3xl md:text-4xl font-bold mb-3 lang-text gujarati" data-lang-key="hero_title">જીવનનો આનંદ માર્ગ</h2>
+                <p class="text-lg text-gray-600 lang-text gujarati" data-lang-key="hero_subtitle">યોગ્ય સમયે, યોગ્ય પરિસ્થિતિમાં, યોગ્ય રીતે વર્તવાની કળાને સમજો અને જીવનને સુખમય બનાવો.</p>
+            </section>
+
+            <!-- What is Auchitya? -->
+            <section class="card p-6 rounded-2xl">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="section-icon p-3 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold lang-text gujarati" data-lang-key="what_is_title">ઔચિત્ય શું છે?</h3>
+                </div>
+                <p class="text-lg bg-indigo-50 text-indigo-800 p-4 rounded-lg border-l-4 border-indigo-500 lang-text gujarati" data-lang-key="what_is_text">"જે સમયે, જે પરિસ્થિતિમાં, જેની સાથે, જે વસ્તુ, જે રીતે કરવી ઉચિત હોય, તે સમયે, તે પરિસ્થિતિમાં, તેની સાથે, તે વસ્તુ, તે રીતે કરવી."</p>
+                <p class="mt-3 text-gray-600 lang-text gujarati" data-lang-key="what_is_subtitle">આ 'જીવન વિજ્ઞાન' (Life Science) અને 'જીવવાની કળા' (Art of Living) છે.</p>
+            </section>
+            
+            <!-- Mindset Shift Section -->
+            <section class="card p-6 rounded-2xl">
+                 <div class="text-center">
+                    <h3 class="text-2xl font-bold mb-4 lang-text gujarati" data-lang-key="mindset_title">માનસિકતામાં બદલાવ</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 bg-red-100 rounded-lg border border-red-200">
+                            <h4 class="font-bold text-red-800 text-lg lang-text gujarati" data-lang-key="mindset_stupidity_title">❌ મૂર્ખતા</h4>
+                            <p class="text-red-700 mt-1 lang-text gujarati" data-lang-key="mindset_stupidity_text">"પરિસ્થિતિ મારા અનુસાર ગોઠવાય."</p>
+                        </div>
+                        <div class="p-4 bg-green-100 rounded-lg border border-green-200">
+                            <h4 class="font-bold text-green-800 text-lg lang-text gujarati" data-lang-key="mindset_intelligence_title">✅ સમજદારી</h4>
+                            <p class="text-green-700 mt-1 lang-text gujarati" data-lang-key="mindset_intelligence_text">"હું પરિસ્થિતિ અનુસાર ગોઠવાઉં."</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resources Section -->
+            <section>
+                <h3 class="text-2xl font-bold mb-4 text-center lang-text gujarati" data-lang-key="resources_title">વધુ જાણો અને અભ્યાસ કરો</h3>
+                <div class="space-y-6">
+                    <!-- YouTube Link 1 -->
+                    <a href="https://youtu.be/RSzQA74JPCg" target="_blank" class="block card p-5 rounded-2xl">
+                        <div class="flex items-center gap-4">
+                            <img src="https://img.youtube.com/vi/RSzQA74JPCg/0.jpg" alt="Podcast Thumbnail" class="w-24 h-24 object-cover rounded-lg shadow-md">
+                            <div>
+                                <p class="font-semibold text-indigo-700 lang-text gujarati" data-lang-key="resource_podcast">પોડકાસ્ટ</p>
+                                <h4 class="text-lg font-bold lang-text gujarati" data-lang-key="yt1_title">ઔચિત્ય: જીવનનો આનંદ માર્ગ</h4>
+                                <p class="text-sm text-gray-600 lang-text gujarati" data-lang-key="yt1_desc">આ પોડકાસ્ટમાં ઔચિત્યના સિદ્ધાંતો અને સુખી જીવન માટેના તેના મહત્વ વિશે ઊંડાણપૂર્વક જાણો.</p>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- YouTube Link 2 -->
+                     <a href="https://youtu.be/XGRbZ8xPcCw" target="_blank" class="block card p-5 rounded-2xl">
+                        <div class="flex items-center gap-4">
+                            <img src="https://img.youtube.com/vi/XGRbZ8xPcCw/0.jpg" alt="Video Thumbnail" class="w-24 h-24 object-cover rounded-lg shadow-md">
+                            <div>
+                                <p class="font-semibold text-indigo-700 lang-text gujarati" data-lang-key="resource_video">વિડિઓ</p>
+                                <h4 class="text-lg font-bold lang-text gujarati" data-lang-key="yt2_title">ઔચિત્ય: Appropriate Behaviour</h4>
+                                <p class="text-sm text-gray-600 lang-text gujarati" data-lang-key="yt2_desc">'લાઈફ સાયન્સ' અને 'આર્ટ ઓફ લિવીંગ' તરીકે ઔચિત્યની સમજ.</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+            
+            <!-- Interactive Activities -->
+            <section>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Infographics Link -->
+                    <a href="infographics.html" target="_blank" class="block card p-6 rounded-2xl text-center">
+                        <div class="flex justify-center mb-3">
+                            <div class="section-icon p-3 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1-1m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                        </div>
+                        <h4 class="text-xl font-bold lang-text gujarati" data-lang-key="infographics_title">ઇન્ફોગ્રાફિક્સ</h4>
+                        <p class="text-gray-600 mt-1 lang-text gujarati" data-lang-key="infographics_desc">ઔચિત્યના મુખ્ય વિચારોની સુંદર અને દ્રશ્ય રજૂઆત.</p>
+                    </a>
+                    <!-- Quiz Link -->
+                    <a href="quiz.html" target="_blank" class="block card p-6 rounded-2xl text-center">
+                        <div class="flex justify-center mb-3">
+                             <div class="section-icon p-3 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                        </div>
+                        <h4 class="text-xl font-bold lang-text gujarati" data-lang-key="quiz_title">ક્વિઝ</h4>
+                        <p class="text-gray-600 mt-1 lang-text gujarati" data-lang-key="quiz_desc">તમારા જ્ઞાનને ચકાસો અને તેને વ્યવહારમાં કેવી રીતે મૂકવું તે શીખો.</p>
+                    </a>
+                 </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center mt-12 mb-4">
+            <p class="text-gray-600 text-sm lang-text gujarati" data-lang-key="footer_credit">સાદર: મનીષ વી. શાહ (વડોદરા)</p>
+            <p class="text-gray-600 text-sm lang-text gujarati" data-lang-key="footer_contact">વોટ્સએપ: 94299 26447</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- TRANSLATION DATA ---
+        const translations = {
+            'gu': {
+                'main_title': 'ઔચિત્ય',
+                'hero_title': 'જીવનનો આનંદ માર્ગ',
+                'hero_subtitle': 'યોગ્ય સમયે, યોગ્ય પરિસ્થિતિમાં, યોગ્ય રીતે વર્તવાની કળાને સમજો અને જીવનને સુખમય બનાવો.',
+                'what_is_title': 'ઔચિત્ય શું છે?',
+                'what_is_text': '"જે સમયે, જે પરિસ્થિતિમાં, જેની સાથે, જે વસ્તુ, જે રીતે કરવી ઉચિત હોય, તે સમયે, તે પરિસ્થિતિમાં, તેની સાથે, તે વસ્તુ, તે રીતે કરવી."',
+                'what_is_subtitle': 'આ \'જીવન વિજ્ઞાન\' (Life Science) અને \'જીવવાની કળા\' (Art of Living) છે.',
+                'mindset_title': 'માનસિકતામાં બદલાવ',
+                'mindset_stupidity_title': '❌ મૂર્ખતા',
+                'mindset_stupidity_text': '"પરિસ્થિતિ મારા અનુસાર ગોઠવાય."',
+                'mindset_intelligence_title': '✅ સમજદારી',
+                'mindset_intelligence_text': '"હું પરિસ્થિતિ અનુસાર ગોઠવાઉં."',
+                'resources_title': 'વધુ જાણો અને અભ્યાસ કરો',
+                'resource_podcast': 'પોડકાસ્ટ',
+                'resource_video': 'વિડિઓ',
+                'yt1_title': 'ઔચિત્ય: જીવનનો આનંદ માર્ગ',
+                'yt1_desc': 'આ પોડકાસ્ટમાં ઔચિત્યના સિદ્ધાંતો અને સુખી જીવન માટેના તેના મહત્વ વિશે ઊંડાણપૂર્વક જાણો.',
+                'yt2_title': 'ઔચિત્ય: Appropriate Behaviour',
+                'yt2_desc': '\'લાઈફ સાયન્સ\' અને \'આર્ટ ઓફ લિવીંગ\' તરીકે ઔચિત્યની સમજ.',
+                'infographics_title': 'ઇન્ફોગ્રાફિક્સ',
+                'infographics_desc': 'ઔચિત્યના મુખ્ય વિચારોની સુંદર અને દ્રશ્ય રજૂઆત.',
+                'quiz_title': 'ક્વિઝ',
+                'quiz_desc': 'તમારા જ્ઞાનને ચકાસો અને તેને વ્યવહારમાં કેવી રીતે મૂકવું તે શીખો.',
+                'footer_credit': 'સાદર: મનીષ વી. શાહ (વડોદરા)',
+                'footer_contact': 'વોટ્સએપ: 94299 26447'
+            },
+            'en': {
+                'main_title': 'Appropriateness',
+                'hero_title': 'The Path to a Joyful Life',
+                'hero_subtitle': 'Understand the art of acting appropriately at the right time, in the right situation, and make your life blissful.',
+                'what_is_title': 'What is Appropriateness?',
+                'what_is_text': '"Doing the right thing, at the right time, in the right situation, with the right person, in the right way."',
+                'what_is_subtitle': 'This is the \'Life Science\' and the \'Art of Living\'.',
+                'mindset_title': 'The Mindset Shift',
+                'mindset_stupidity_title': '❌ Stupidity',
+                'mindset_stupidity_text': '"The situation should adapt to me."',
+                'mindset_intelligence_title': '✅ Intelligence',
+                'mindset_intelligence_text': '"I should adapt to the situation."',
+                'resources_title': 'Learn More & Practice',
+                'resource_podcast': 'Podcast',
+                'resource_video': 'Video',
+                'yt1_title': 'The path to a happy life of righteousness',
+                'yt1_desc': 'Learn in-depth about the principles of appropriateness and its importance for a happy life in this podcast.',
+                'yt2_title': 'Appropriateness: Life Science & Art of Living',
+                'yt2_desc': 'Understanding appropriateness as a \'Life Science\' and \'Art of Living\'.',
+                'infographics_title': 'Infographics',
+                'infographics_desc': 'A beautiful and visual presentation of the core ideas of appropriateness.',
+                'quiz_title': 'Quiz',
+                'quiz_desc': 'Test your knowledge and learn how to put it into practice.',
+                'footer_credit': 'Presented by: Manish V. Shah (Vadodara)',
+                'footer_contact': 'WhatsApp: 94299 26447'
+            }
+        };
+
+        // --- LANGUAGE SWITCHER LOGIC ---
+        const langGuButton = document.getElementById('lang-gu');
+        const langEnButton = document.getElementById('lang-en');
+        const textElements = document.querySelectorAll('[data-lang-key]');
+        const htmlTag = document.documentElement;
+
+        function changeLanguage(lang) {
+            textElements.forEach(el => {
+                const key = el.getAttribute('data-lang-key');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                    if (lang === 'gu') {
+                        el.classList.add('gujarati');
+                        el.classList.remove('english');
+                    } else {
+                        el.classList.add('english');
+                        el.classList.remove('gujarati');
+                    }
+                }
+            });
+            htmlTag.lang = lang;
+
+            // Update button styles
+            if (lang === 'gu') {
+                langGuButton.classList.add('active');
+                langEnButton.classList.remove('active');
+            } else {
+                langEnButton.classList.add('active');
+                langGuButton.classList.remove('active');
+            }
+        }
+
+        langGuButton.addEventListener('click', () => changeLanguage('gu'));
+        langEnButton.addEventListener('click', () => changeLanguage('en'));
+
+        // Set initial language
+        changeLanguage('gu');
+    </script>
+</body>
+</html>

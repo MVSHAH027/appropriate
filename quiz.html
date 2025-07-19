@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz on Appropriateness | ઔચિત્ય પર ક્વિઝ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@400;600;700&family=Inter:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', 'Hind Vadodara', sans-serif;
+            transition: background-color 0.3s;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .option-btn {
+            transition: all 0.2s ease-in-out;
+            border: 2px solid transparent;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .correct {
+            background-color: #10B981 !important; /* Emerald-500 */
+            color: white !important;
+            border-color: #059669;
+        }
+
+        .incorrect {
+            background-color: #EF4444 !important; /* Red-500 */
+            color: white !important;
+            border-color: #DC2626;
+        }
+        
+        .explanation {
+            border-left: 4px solid #3B82F6; /* Blue-500 */
+        }
+        
+        .lang-btn.active {
+            background-color: #3B82F6;
+            color: white;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="quiz-container bg-white my-4 md:my-8 p-6 md:p-8">
+        
+        <!-- Language Switcher -->
+        <div class="flex justify-center mb-6">
+            <div class="flex border border-gray-300 rounded-lg p-1">
+                <button id="lang-gu" class="lang-btn px-4 py-2 text-sm md:text-base rounded-md transition-colors">ગુજરાતી</button>
+                <button id="lang-en" class="lang-btn px-4 py-2 text-sm md:text-base rounded-md transition-colors active">English</button>
+            </div>
+        </div>
+
+        <div id="quiz-content">
+            <!-- Header -->
+            <div class="text-center mb-6">
+                <h1 id="quiz-title" class="text-2xl md:text-3xl font-bold text-gray-900"></h1>
+                <p id="quiz-subtitle" class="text-gray-500 mt-1"></p>
+                <div id="progress-bar" class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
+                    <div id="progress-bar-inner" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Question Area -->
+            <div id="question-area" class="mb-6">
+                <p id="question-text" class="text-lg md:text-xl font-semibold mb-4"></p>
+                <div id="options-container" class="grid grid-cols-1 gap-3">
+                    <!-- Options will be injected here -->
+                </div>
+            </div>
+
+            <!-- Explanation Area -->
+            <div id="explanation-area" class="hidden mt-4">
+                <div id="explanation-box" class="explanation bg-blue-50 p-4 rounded-lg">
+                    <h3 id="explanation-title" class="font-bold text-lg mb-2"></h3>
+                    <p id="explanation-text"></p>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="mt-8 text-center">
+                <button id="next-btn" class="bg-blue-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-600 transition-colors hidden"></button>
+            </div>
+        </div>
+        
+        <!-- Final Score Area -->
+        <div id="score-area" class="hidden text-center p-8">
+             <h2 id="final-title" class="text-3xl font-bold text-gray-900 mb-2"></h2>
+             <p id="final-score" class="text-5xl font-bold text-blue-600 mb-4"></p>
+             <p id="final-message" class="text-gray-600 mb-8"></p>
+             <button id="restart-btn" class="bg-blue-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-600 transition-colors"></button>
+        </div>
+
+    </div>
+
+    <script>
+        const quizData = [
+            // Chapter Questions
+            {
+                type: 'chapter',
+                question: {
+                    gu: "સંયમના મતે સફળ જીવનનું રહસ્ય શું છે?",
+                    en: "According to Sanyam, what is the secret to a successful life?"
+                },
+                options: {
+                    gu: ["પૈસા કમાવવા", "આનંદ કરવો", "ઔચિત્ય", "સખત મહેનત"],
+                    en: ["Earning money", "Having fun", "Appropriateness (Auchitya)", "Hard work"]
+                },
+                answer: 2,
+                explanation: {
+                    gu: "સંયમ સમજાવે છે કે ઔચિત્ય, એટલે કે યોગ્ય વર્તન, એ સફળ જીવનનું મુખ્ય રહસ્ય છે.",
+                    en: "Sanyam explains that Appropriateness (Auchitya), meaning right conduct, is the main secret to a successful life."
+                }
+            },
+            {
+                type: 'chapter',
+                question: {
+                    gu: "યુગ માટે ક્રિકેટ રમવું શા માટે 'બોરિંગ જોબ' નથી, ભલે તેમાં થાક લાગે?",
+                    en: "Why is playing cricket not a 'boring job' for Yug, even though it's tiring?"
+                },
+                options: {
+                    gu: ["કારણ કે તે ટીમમાં રમે છે", "કારણ કે તેને તે ગમે છે", "કારણ કે તે જીતે છે", "કારણ કે તે એક રમત છે"],
+                    en: ["Because he plays in a team", "Because he likes it", "Because he wins", "Because it is a sport"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "કોઈપણ કાર્ય બોજ છે કે આનંદ, તે વ્યક્તિની પસંદ-નાપસંદ પર આધાર રાખે છે. યુગને ક્રિકેટ ગમે છે, તેથી તે તેના માટે આનંદ છે.",
+                    en: "Whether an activity is a burden or a joy depends on one's likes and dislikes. Yug likes cricket, so it's enjoyment for him."
+                }
+            },
+            {
+                type: 'chapter',
+                question: {
+                    gu: "સંયમે ઔચિત્યની વ્યાખ્યા કેવી રીતે આપી?",
+                    en: "How did Sanyam define Appropriateness (Auchitya)?"
+                },
+                options: {
+                    gu: ["હંમેશા બીજાને મદદ કરવી", "યોગ્ય સમયે, યોગ્ય પરિસ્થિતિમાં, યોગ્ય વ્યક્તિ સાથે યોગ્ય રીતે વર્તવું", "ફક્ત પોતાના પરિવારનું ધ્યાન રાખવું", "ક્યારેય ગુસ્સો ન કરવો"],
+                    en: ["Always helping others", "Behaving correctly with the right person, in the right situation, at the right time", "Only caring for one's own family", "Never getting angry"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "ઔચિત્ય એટલે યોગ્ય સમયે, પરિસ્થિતિમાં, વ્યક્તિ સાથે અને યોગ્ય રીતે જે કરવું ઉચિત હોય તે કરવું.",
+                    en: "Auchitya means doing what is appropriate at the right time, in the right situation, with the right person, and in the right way."
+                }
+            },
+            {
+                type: 'chapter',
+                question: {
+                    gu: "સંયમના મતે, 'હું પરિસ્થિતિ અનુસાર ગોઠવાઈશ' એ કેવી વિચારસરણી છે?",
+                    en: "According to Sanyam, what kind of thinking is 'I will adjust according to the situation'?"
+                },
+                options: {
+                    gu: ["મૂર્ખતા (Stupidity)", "બુદ્ધિશાળીપણું (Intelligence)", "નબળાઈ (Weakness)", "સ્વાર્થ (Selfishness)"],
+                    en: ["Stupidity", "Intelligence", "Weakness", "Selfishness"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "પરિસ્થિતિને પોતાની અનુસાર બદલવાની ઈચ્છા મૂર્ખતા છે, જ્યારે પરિસ્થિતિ અનુસાર પોતાને ગોઠવવાની ઈચ્છા બુદ્ધિશાળીપણું છે.",
+                    en: "Wanting to change the situation to suit oneself is stupidity, while wanting to adjust oneself to the situation is intelligence."
+                }
+            },
+            {
+                type: 'chapter',
+                question: {
+                    gu: "ઔચિત્ય વગરનો માણસ કેવો બની જાય છે?",
+                    en: "What does a person without appropriateness become like?"
+                },
+                options: {
+                    gu: ["વધુ સફળ", "જાનવર જેવો", "વધુ લોકપ્રિય", "શાંત"],
+                    en: ["More successful", "Like an animal", "More popular", "Calm"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "સંયમ કહે છે કે ઔચિત્ય વિનાનો માણસ ફક્ત પોતાના સ્વાર્થનો વિચાર કરે છે અને જાનવર જેવો બની જાય છે.",
+                    en: "Sanyam says that a person without appropriateness only thinks of their self-interest and becomes like an animal."
+                }
+            },
+            // Scenario Questions
+            {
+                type: 'scenario',
+                question: {
+                    gu: "તમે બસમાં મુસાફરી કરી રહ્યા છો અને એક વૃદ્ધ વ્યક્તિ ચઢે છે, પણ કોઈ સીટ ખાલી નથી. તમારે શું કરવું જોઈએ?",
+                    en: "You are traveling on a bus and an elderly person gets on, but there are no empty seats. What should you do?"
+                },
+                options: {
+                    gu: ["બારી બહાર જોવાનો ડોળ કરવો", "તેમને તમારી સીટ ઓફર કરવી", "કંડક્ટરને ફરિયાદ કરવી", "તેમને ઉભા રહેવા માટે જગ્યા કરી આપવી"],
+                    en: ["Pretend to look out the window", "Offer them your seat", "Complain to the conductor", "Make space for them to stand"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "વડીલોનું સન્માન કરવું અને જરૂરિયાતમંદને મદદ કરવી એ ઔચિત્યપૂર્ણ વર્તન છે. તમારી સીટ ઓફર કરવી એ સૌથી યોગ્ય કાર્ય છે.",
+                    en: "Respecting elders and helping those in need is appropriate behavior. Offering your seat is the most appropriate action."
+                }
+            },
+            {
+                type: 'scenario',
+                question: {
+                    gu: "તમારા મિત્રએ પરીક્ષામાં ઓછા માર્ક્સ મેળવ્યા છે અને તે ખૂબ જ નિરાશ છે. તમારે શું કહેવું જોઈએ?",
+                    en: "Your friend has scored low marks in an exam and is very upset. What should you say?"
+                },
+                options: {
+                    gu: ["'મેં તો તને કહ્યું જ હતું કે વધુ ભણ.'", "'ચિંતા ન કર, હું તને આગલી પરીક્ષા માટે મદદ કરીશ.'", "'મારા તો તારાથી પણ સારા માર્ક્સ છે.'", "તેની અવગણના કરવી"],
+                    en: ["'I told you to study more.'", "'Don't worry, I will help you prepare for the next exam.'", "'I scored better marks than you.'", "Ignore them"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "મુશ્કેલ સમયમાં મિત્રને ઠપકો આપવાને બદલે તેને હિંમત અને ટેકો આપવો એ જ સાચી મિત્રતા અને ઔચિત્ય છે.",
+                    en: "Giving encouragement and support to a friend in difficult times, rather than scolding them, is true friendship and appropriateness."
+                }
+            },
+            {
+                type: 'chapter',
+                question: {
+                    gu: "જો પપ્પા બિઝનેસના ટેન્શનમાં હોય, તો સંયમના મતે શું કરવું ઔચિત્યપૂર્ણ છે?",
+                    en: "If a father is tense about business, what is the appropriate thing to do according to Sanyam?"
+                },
+                options: {
+                    gu: ["નવા ખર્ચની માંગણી કરવી", "કોઈપણ ખર્ચનો વિચાર પણ ન કરવો", "તેમને મનોરંજન માટે બહાર લઈ જવા", "તેમને એકલા છોડી દેવા"],
+                    en: ["Demand a new expense", "Not even think about any expense", "Take him out for entertainment", "Leave him alone"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "જ્યારે પરિવારના સભ્યો તણાવમાં હોય, ત્યારે તેમના પર વધુ બોજ ન નાખવો અને તેમની પરિસ્થિતિ સમજવી એ ઔચિત્ય છે.",
+                    en: "When family members are under stress, it is appropriate not to add to their burden and to understand their situation."
+                }
+            },
+            {
+                type: 'scenario',
+                question: {
+                    gu: "તમે લાઈબ્રેરીમાં વાંચી રહ્યા છો અને તમારો ફોન રણકે છે. તમારે શું કરવું જોઈએ?",
+                    en: "You are reading in a library and your phone rings. What should you do?"
+                },
+                options: {
+                    gu: ["ત્યાં જ ફોન પર ધીમેથી વાત કરવી", "ફોન કાપી નાખવો અને તરત જ તેને સાયલન્ટ પર મૂકવો", "બહાર જઈને મોટેથી વાત કરવી", "ફોનને રણકવા દેવો"],
+                    en: ["Talk softly on the phone right there", "Cut the call and immediately put it on silent", "Go outside and talk loudly", "Let the phone ring"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "લાઈબ્રેરી જેવી શાંત જગ્યાના નિયમોનું પાલન કરવું અને બીજાને ખલેલ ન પહોંચાડવી એ ઔચિત્ય છે.",
+                    en: "Following the rules of a quiet place like a library and not disturbing others is appropriate behavior."
+                }
+            },
+            {
+                type: 'chapter',
+                question: {
+                    gu: "ઔચિત્યની અવગણના કરવાથી વિદેશીઓ કેવા પરિણામો ભોગવી રહ્યા છે?",
+                    en: "What consequences are foreigners facing by ignoring appropriateness?"
+                },
+                options: {
+                    gu: ["તેઓ વધુ સુખી થયા છે", "તેમનું પારિવારિક જીવન ખલાસ થઈ ગયું છે અને તેઓ માનસિક રોગોના શિકાર બન્યા છે", "તેઓ વધુ તંદુરસ્ત બન્યા છે", "તેમણે વધુ પૈસા કમાવ્યા છે"],
+                    en: ["They have become happier", "Their family life is ruined and they have become victims of mental diseases", "They have become healthier", "They have earned more money"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "પાઠ મુજબ, ઔચિત્યની અવગણના કરવાથી પારિવારિક જીવન તૂટી જાય છે અને લોકો માનસિક રોગો, ડ્રગ્સ અને આત્મહત્યા તરફ ધકેલાય છે.",
+                    en: "According to the chapter, ignoring appropriateness leads to the breakdown of family life and pushes people towards mental illness, drugs, and suicide."
+                }
+            },
+            {
+                type: 'scenario',
+                question: {
+                    gu: "તમારા નાના ભાઈ-બહેને રમતી વખતે ભૂલથી તમારો મનપસંદ કપ તોડી નાખ્યો. તમારી પ્રતિક્રિયા શું હોવી જોઈએ?",
+                    en: "Your younger sibling accidentally broke your favorite cup while playing. What should be your reaction?"
+                },
+                options: {
+                    gu: ["તેમના પર ગુસ્સે થવું અને બૂમો પાડવી", "શાંતિથી સમજાવવું કે ભવિષ્યમાં સાવચેત રહે અને તેમને માફ કરી દેવા", "તેમની મનપસંદ વસ્તુ તોડી નાખવી", "માતા-પિતાને ફરિયાદ કરવી"],
+                    en: ["Get angry and shout at them", "Calmly explain to be careful in the future and forgive them", "Break their favorite thing", "Complain to the parents"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "ભૂલ અજાણતા થઈ છે. ગુસ્સો કરવાથી સંબંધ બગડશે. માફી અને સમજાવટ એ વધુ યોગ્ય અને પરિપક્વ વર્તન છે.",
+                    en: "The mistake was unintentional. Getting angry will spoil the relationship. Forgiveness and explanation are more appropriate and mature behaviors."
+                }
+            },
+            {
+                type: 'chapter',
+                question: {
+                    gu: "સંયમના મતે, કોઈ પણ વસ્તુ 'બોરિંગ ડ્યુટી' છે કે 'એન્જોયમેન્ટ', તે શેના પર આધાર રાખે છે?",
+                    en: "According to Sanyam, whether something is a 'boring duty' or 'enjoyment' depends on what?"
+                },
+                options: {
+                    gu: ["તેમાં કેટલો સમય લાગે છે તેના પર", "તેમાં કેટલા પૈસા મળે છે તેના પર", "વ્યક્તિની પસંદ-નાપસંદ પર", "તે કેટલું મુશ્કેલ છે તેના પર"],
+                    en: ["How much time it takes", "How much money is earned from it", "A person's likes and dislikes", "How difficult it is"]
+                },
+                answer: 2,
+                explanation: {
+                    gu: "સંયમ સ્પષ્ટપણે કહે છે કે જો તમને કોઈ કામ ગમે છે, તો તે થકાવનારું હોવા છતાં આનંદદાયક લાગે છે.",
+                    en: "Sanyam clearly states that if you like a task, it feels enjoyable even if it is tiring."
+                }
+            },
+            {
+                type: 'scenario',
+                question: {
+                    gu: "તમે અને તમારા મિત્રો ફિલ્મ જોવા જવાનું આયોજન કરી રહ્યા છો, પણ એક મિત્ર પાસે ટિકિટના પૈસા નથી. તમારે શું કરવું જોઈએ?",
+                    en: "You and your friends are planning to go for a movie, but one friend doesn't have money for the ticket. What should you do?"
+                },
+                options: {
+                    gu: ["તેને પાછળ છોડીને જતા રહેવું", "બધાએ મળીને તેના માટે પૈસા ભેગા કરવા અથવા કોઈ સસ્તો પ્લાન બનાવવો", "તેને પૈસા ઉધાર લેવા માટે કહેવું", "પ્લાન કેન્સલ કરી દેવો"],
+                    en: ["Leave him behind and go", "Collectively contribute for his ticket or make a cheaper plan", "Tell him to borrow money", "Cancel the plan"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "મિત્રતામાં બધાને સાથે લઈને ચાલવું એ ઔચિત્ય છે. મિત્રને છોડી દેવાને બદલે સમાધાન શોધવું એ યોગ્ય છે.",
+                    en: "In friendship, it is appropriate to include everyone. Finding a solution instead of leaving a friend behind is the right thing to do."
+                }
+            },
+            {
+                type: 'chapter',
+                question: {
+                    gu: "સંયમના મતે, ઔચિત્ય એ શું છે?",
+                    en: "According to Sanyam, what is Appropriateness (Auchitya)?"
+                },
+                options: {
+                    gu: ["એક ફરજિયાત ડ્યુટી", "જીવન જીવવાની કળા (Art of Living)", "પૈસા બચાવવાની રીત", "એક જૂની પરંપરા"],
+                    en: ["A forced duty", "The Art of Living", "A way to save money", "An old tradition"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "સંયમ ઔચિત્યને 'લાઈફ સાયન્સ' અને 'આર્ટ ઓફ લિવિંગ' કહે છે, જે જીવનને આનંદમય બનાવે છે.",
+                    en: "Sanyam calls Auchitya a 'Life Science' and the 'Art of Living', which makes life joyful."
+                }
+            },
+            {
+                type: 'scenario',
+                question: {
+                    gu: "તમારા પાડોશમાં કચરો જાહેરમાં ફેંકવામાં આવે છે. તમારે શું કરવું જોઈએ?",
+                    en: "Garbage is being thrown in public in your neighborhood. What should you do?"
+                },
+                options: {
+                    gu: ["તેની અવગણના કરવી કારણ કે તે તમારું ઘર નથી", "નમ્રતાપૂર્વક તમારા પાડોશીઓ સાથે વાત કરવી અને સાથે મળીને ઉકેલ શોધવો", "તેમની સાથે ઝઘડો કરવો", "ગુપ્ત રીતે તેમના ઘર પાસે કચરો ફેંકવો"],
+                    en: ["Ignore it as it's not your house", "Politely talk to your neighbors and find a solution together", "Fight with them", "Secretly throw garbage near their house"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "એક જવાબદાર નાગરિક તરીકે, સમસ્યાને અવગણવા કે ઝઘડો કરવાને બદલે, વાતચીત દ્વારા ઉકેલ લાવવાનો પ્રયાસ કરવો એ ઔચિત્ય છે.",
+                    en: "As a responsible citizen, it is appropriate to try to solve the problem through dialogue rather than ignoring it or fighting."
+                }
+            },
+            {
+                type: 'chapter',
+                question: {
+                    gu: "જો મમ્મી બીમાર હોય તો શું કરવું ઔચિત્યપૂર્ણ છે?",
+                    en: "What is the appropriate thing to do if your mother is sick?"
+                },
+                options: {
+                    gu: ["મિત્રો સાથે રમવા જવું", "રસોડામાં તેમને મદદ કરવી", "ટીવી જોવું", "બહારથી જમવાનું મંગાવી લેવું"],
+                    en: ["Go out to play with friends", "Help her in the kitchen", "Watch TV", "Order food from outside"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "જ્યારે પરિવારના સભ્યને આપણી જરૂર હોય, ત્યારે આપણી જવાબદારી સમજવી અને તેમને મદદ કરવી એ ઔચિત્ય છે.",
+                    en: "When a family member needs us, understanding our responsibility and helping them is appropriateness."
+                }
+            },
+            {
+                type: 'scenario',
+                question: {
+                    gu: "તમે ઓનલાઈન ક્લાસમાં છો અને શિક્ષક કંઈક સમજાવી રહ્યા છે જે તમને સમજાતું નથી. તમારે શું કરવું?",
+                    en: "You are in an online class and the teacher is explaining something you don't understand. What should you do?"
+                },
+                options: {
+                    gu: ["ચૂપ રહેવું જેથી કોઈ તમને મૂર્ખ ન સમજે", "ક્લાસ પૂરો થયા પછી મિત્રને પૂછવું", "નમ્રતાપૂર્વક શિક્ષકને ફરીથી સમજાવવા માટે વિનંતી કરવી", "ક્લાસ છોડી દેવો"],
+                    en: ["Stay quiet so no one thinks you are foolish", "Ask a friend after the class is over", "Politely request the teacher to explain again", "Leave the class"]
+                },
+                answer: 2,
+                explanation: {
+                    gu: "શીખવાની પ્રક્રિયામાં પ્રશ્નો પૂછવા એ જરૂરી છે. ડર્યા વગર, નમ્રતાથી શંકાનું સમાધાન કરવું એ વિદ્યાર્થી માટે ઔચિત્યપૂર્ણ છે.",
+                    en: "Asking questions is essential in the learning process. It is appropriate for a student to clarify doubts politely without fear."
+                }
+            },
+            {
+                type: 'chapter',
+                question: {
+                    gu: "સંયમના મતે, ચેરિટી (દાન) વિશે શું વિચારવું જોઈએ?",
+                    en: "According to Sanyam, what should one think about charity?"
+                },
+                options: {
+                    gu: ["તે પૈસાનો બગાડ છે", "જ્યારે આપણે આપણી હોબી પાછળ 10 રૂપિયા ખર્ચીએ, ત્યારે 5 રૂપિયા દાન કરવા જોઈએ", "ફક્ત અમીર લોકોએ દાન કરવું જોઈએ", "દાન ક્યારેય ન કરવું જોઈએ"],
+                    en: ["It is a waste of money", "When we spend 10 rupees on our hobby, we should donate 5 rupees", "Only rich people should donate", "One should never donate"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "સંયમ શીખવે છે કે પોતાના ખર્ચની સાથે સાથે સમાજ પ્રત્યેની જવાબદારી નિભાવવી અને દાન કરવું એ પણ ઔચિત્યનો એક ભાગ છે.",
+                    en: "Sanyam teaches that along with personal expenses, fulfilling one's responsibility towards society and donating is also a part of appropriateness."
+                }
+            },
+            {
+                type: 'scenario',
+                question: {
+                    gu: "તમારા મિત્રએ તમને એક ગુપ્ત વાત કહી છે. તમારે શું કરવું જોઈએ?",
+                    en: "Your friend has told you a secret. What should you do?"
+                },
+                options: {
+                    gu: ["તે વાત બીજા મિત્રોને કહેવી", "તે વાતને ગુપ્ત જ રાખવી", "તે વાતનો ઉપયોગ તેની મજાક ઉડાવવા માટે કરવો", "તે વાત સોશિયલ મીડિયા પર પોસ્ટ કરવી"],
+                    en: ["Tell it to other friends", "Keep the secret to yourself", "Use it to make fun of them", "Post it on social media"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "વિશ્વાસ જાળવી રાખવો એ સંબંધોનો પાયો છે. મિત્રના વિશ્વાસનું સન્માન કરવું અને તેની ગુપ્ત વાત ગુપ્ત રાખવી એ ઔચિત્ય છે.",
+                    en: "Maintaining trust is the foundation of relationships. Respecting a friend's trust and keeping their secret is appropriateness."
+                }
+            },
+            {
+                type: 'chapter',
+                question: {
+                    gu: "યુગે શરૂઆતમાં સંયમ જ્યારે દાદાને ક્લિનિક લઈ જતો હતો ત્યારે તેને શું કહ્યું?",
+                    en: "What did Yug initially say to Sanyam when he was taking his grandfather to the clinic?"
+                },
+                options: {
+                    gu: ["'તું ખૂબ સારું કામ કરી રહ્યો છે.'", "'આ તો એક બોરિંગ જોબ છે.'", "'હું પણ તારી સાથે આવું?'", "'દાદાજીની તબિયત કેવી છે?'"],
+                    en: ["'You are doing a great job.'", "'This is a boring job.'", "'Can I come with you?'", "'How is grandpa's health?'"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "શરૂઆતમાં, યુગને વડીલોની સેવા કરવી એ એક કંટાળાજનક કામ લાગતું હતું, જે તેના ઔચિત્યના અભાવને દર્શાવે છે.",
+                    en: "Initially, Yug considered serving elders a boring job, which showed his lack of appropriateness."
+                }
+            },
+            {
+                type: 'scenario',
+                question: {
+                    gu: "તમે રેસ્ટોરન્ટમાં જમ્યા પછી જોયું કે વેઈટરે ભૂલથી બિલમાં એક વાનગી ઉમેરી નથી. તમારે શું કરવું જોઈએ?",
+                    en: "After dining at a restaurant, you notice the waiter mistakenly didn't add a dish to the bill. What should you do?"
+                },
+                options: {
+                    gu: ["ચૂપચાપ ઓછા પૈસા ચૂકવીને જતા રહેવું", "વેઈટરને તેની ભૂલ વિશે જાણ કરવી અને સાચું બિલ ચૂકવવું", "વેઈટરને તેની ભૂલ માટે ઠપકો આપવો", "મિત્રોને આ વાતની બડાઈ મારવી"],
+                    en: ["Quietly pay the lesser amount and leave", "Inform the waiter about his mistake and pay the correct bill", "Scold the waiter for his mistake", "Brag about it to your friends"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "પ્રામાણિકતા એ ઔચિત્યનું એક મહત્વનું અંગ છે. કોઈની ભૂલનો ફાયદો ઉઠાવવાને બદલે પ્રામાણિક રહેવું એ યોગ્ય વર્તન છે.",
+                    en: "Honesty is an important aspect of appropriateness. Being honest instead of taking advantage of someone's mistake is the right conduct."
+                }
+            },
+            {
+                type: 'chapter',
+                question: {
+                    gu: "ઔચિત્ય વગરના માણસના મનમાં શું હોય છે?",
+                    en: "What is in the mind of a person without appropriateness?"
+                },
+                options: {
+                    gu: ["શાંતિ", "આનંદ", "ધમાસાણ (ટ્રાફિક જામ)", "નવા વિચારો"],
+                    en: ["Peace", "Joy", "Chaos (Traffic Jam)", "New ideas"]
+                },
+                answer: 2,
+                explanation: {
+                    gu: "જે વ્યક્તિમાં ઔચિત્ય નથી, તેનું મન સ્વાર્થી વિચારોથી ભરેલું હોય છે, જેના કારણે તેના મનમાં શાંતિને બદલે હંમેશા ધમાસાણ અને અશાંતિ રહે છે.",
+                    en: "A person who lacks appropriateness has a mind full of selfish thoughts, leading to constant chaos and unrest instead of peace."
+                }
+            },
+            {
+                type: 'scenario',
+                question: {
+                    gu: "તમારા શિક્ષક તમને કોઈ પ્રોજેક્ટ આપે છે જે તમને પસંદ નથી. તમારે શું કરવું જોઈએ?",
+                    en: "Your teacher assigns you a project that you don't like. What should you do?"
+                },
+                options: {
+                    gu: ["પ્રોજેક્ટ ન કરવો અને બહાનું બનાવવું", "તેને એક જવાબદારી સમજીને પૂરી નિષ્ઠાથી પૂર્ણ કરવો", "બીજા કોઈ પાસે કરાવી લેવો", "શિક્ષક સાથે દલીલ કરવી"],
+                    en: ["Not do the project and make an excuse", "Consider it a responsibility and complete it with full dedication", "Get it done by someone else", "Argue with the teacher"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "દરેક કામ આપણી પસંદનું ન પણ હોય. ઔચિત્ય એ છે કે આપણી જવાબદારીઓને સ્વીકારીએ અને તેને શ્રેષ્ઠ રીતે નિભાવીએ, ભલે તે આપણને ગમતી ન હોય.",
+                    en: "Not every task may be of our liking. Appropriateness is to accept our responsibilities and fulfill them to the best of our ability, even if we don't like them."
+                }
+            },
+            {
+                type: 'chapter',
+                question: {
+                    gu: "સંયમે યુગને તેના દાદા વિશે શું કહ્યું?",
+                    en: "What did Sanyam tell Yug about his grandfather?"
+                },
+                options: {
+                    gu: ["તેઓ હંમેશા બીમાર રહે છે", "તેમણે સંયમ પર ઘણા ઉપકારો કર્યા છે અને તેની સંભાળ રાખી છે", "તેઓ ખૂબ કડક છે", "તેઓ તેને ક્યારેય મદદ નથી કરતા"],
+                    en: ["He is always sick", "He has done many favors for Sanyam and has taken care of him", "He is very strict", "He never helps him"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "સંયમ તેના દાદાની સેવાને બોજ નથી માનતો કારણ કે તે તેમના ઉપકારોને યાદ રાખે છે અને તેમના પ્રત્યે કૃતજ્ઞતા અનુભવે છે.",
+                    en: "Sanyam doesn't consider serving his grandfather a burden because he remembers his favors and feels gratitude towards him."
+                }
+            },
+            {
+                type: 'scenario',
+                question: {
+                    gu: "તમે જોયું કે કોઈ પ્રાણી ઘાયલ છે. તમારે શું કરવું જોઈએ?",
+                    en: "You see an injured animal. What should you do?"
+                },
+                options: {
+                    gu: ["તેને અવગણીને આગળ વધવું", "જો શક્ય હોય તો, પ્રાણી સહાય સંસ્થાને ફોન કરવો અથવા તેને મદદ કરવી", "તેનો ફોટો પાડીને સોશિયલ મીડિયા પર મૂકવો", "તેનાથી ડરીને ભાગી જવું"],
+                    en: ["Ignore it and move on", "If possible, call an animal helpline or help it", "Take a photo and post it on social media", "Get scared and run away"]
+                },
+                answer: 1,
+                explanation: {
+                    gu: "દરેક જીવ પ્રત્યે કરુણા અને દયા રાખવી એ ઔચિત્યપૂર્ણ વર્તન છે. મૂંગા પ્રાણીની મદદ કરવી એ માનવતા છે.",
+                    en: "Having compassion and kindness for every living being is appropriate behavior. Helping a voiceless animal is humanity."
+                }
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let currentLanguage = 'en';
+        let shuffledQuestions = [];
+
+        const langGuBtn = document.getElementById('lang-gu');
+        const langEnBtn = document.getElementById('lang-en');
+        const quizTitleEl = document.getElementById('quiz-title');
+        const quizSubtitleEl = document.getElementById('quiz-subtitle');
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainerEl = document.getElementById('options-container');
+        const explanationAreaEl = document.getElementById('explanation-area');
+        const explanationTitleEl = document.getElementById('explanation-title');
+        const explanationTextEl = document.getElementById('explanation-text');
+        const nextBtnEl = document.getElementById('next-btn');
+        const scoreAreaEl = document.getElementById('score-area');
+        const quizContentEl = document.getElementById('quiz-content');
+        const finalTitleEl = document.getElementById('final-title');
+        const finalScoreEl = document.getElementById('final-score');
+        const finalMessageEl = document.getElementById('final-message');
+        const restartBtnEl = document.getElementById('restart-btn');
+        const progressBarInnerEl = document.getElementById('progress-bar-inner');
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            if (lang === 'gu') {
+                langGuBtn.classList.add('active');
+                langEnBtn.classList.remove('active');
+            } else {
+                langEnBtn.classList.add('active');
+                langGuBtn.classList.remove('active');
+            }
+            updateUIText();
+            if(currentQuestionIndex < shuffledQuestions.length){
+                loadQuestion();
+            } else {
+                showScore();
+            }
+        }
+
+        function updateUIText() {
+            const translations = {
+                gu: {
+                    title: "ઔચિત્ય પર ક્વિઝ",
+                    subtitle: "તમારી સમજ ચકાસો અને નવી આંતરદૃષ્ટિ મેળવો.",
+                    next: "આગળનો પ્રશ્ન",
+                    explanationTitle: "સમજૂતી",
+                    finalTitle: "ક્વિઝ પૂર્ણ!",
+                    finalMessage: "તમે ઔચિત્યના સિદ્ધાંતોને ખૂબ સારી રીતે સમજ્યા છો. આ જ્ઞાનનો રોજિંદા જીવનમાં ઉપયોગ કરતા રહો.",
+                    restart: "ફરીથી શરૂ કરો"
+                },
+                en: {
+                    title: "Quiz on Appropriateness",
+                    subtitle: "Test your understanding and gain new insights.",
+                    next: "Next Question",
+                    explanationTitle: "Explanation",
+                    finalTitle: "Quiz Complete!",
+                    finalMessage: "You have a great understanding of the principles of appropriateness. Keep applying this knowledge in daily life.",
+                    restart: "Restart Quiz"
+                }
+            };
+            const t = translations[currentLanguage];
+            quizTitleEl.innerText = t.title;
+            quizSubtitleEl.innerText = t.subtitle;
+            nextBtnEl.innerText = t.next;
+            explanationTitleEl.innerText = t.explanationTitle;
+            finalTitleEl.innerText = t.finalTitle;
+            finalMessageEl.innerText = t.finalMessage;
+            restartBtnEl.innerText = t.restart;
+        }
+
+        function loadQuestion() {
+            explanationAreaEl.classList.add('hidden');
+            nextBtnEl.classList.add('hidden');
+            optionsContainerEl.innerHTML = '';
+
+            const question = shuffledQuestions[currentQuestionIndex];
+            questionTextEl.innerText = `${currentQuestionIndex + 1}. ${question.question[currentLanguage]}`;
+
+            question.options[currentLanguage].forEach((option, index) => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.classList.add('option-btn', 'w-full', 'text-left', 'p-4', 'rounded-lg', 'bg-gray-100', 'hover:bg-gray-200');
+                button.dataset.index = index;
+                button.addEventListener('click', selectAnswer);
+                optionsContainerEl.appendChild(button);
+            });
+            
+            updateProgressBar();
+        }
+        
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex) / shuffledQuestions.length) * 100;
+            progressBarInnerEl.style.width = `${progress}%`;
+        }
+
+        function selectAnswer(e) {
+            const selectedBtn = e.target;
+            const selectedIndex = parseInt(selectedBtn.dataset.index);
+            const correctIndex = shuffledQuestions[currentQuestionIndex].answer;
+
+            Array.from(optionsContainerEl.children).forEach(btn => {
+                btn.disabled = true;
+            });
+
+            if (selectedIndex === correctIndex) {
+                selectedBtn.classList.add('correct');
+                score++;
+            } else {
+                selectedBtn.classList.add('incorrect');
+                optionsContainerEl.children[correctIndex].classList.add('correct');
+            }
+            
+            explanationTextEl.innerText = shuffledQuestions[currentQuestionIndex].explanation[currentLanguage];
+            explanationAreaEl.classList.remove('hidden');
+            
+            if (currentQuestionIndex < shuffledQuestions.length - 1) {
+                nextBtnEl.classList.remove('hidden');
+            } else {
+                setTimeout(showScore, 2000);
+            }
+        }
+
+        function showScore() {
+            updateProgressBar(); // To make it 100%
+            progressBarInnerEl.style.width = `100%`;
+            quizContentEl.classList.add('hidden');
+            scoreAreaEl.classList.remove('hidden');
+            finalScoreEl.innerText = `${score} / ${shuffledQuestions.length}`;
+        }
+
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            shuffledQuestions = shuffleArray([...quizData]);
+            scoreAreaEl.classList.add('hidden');
+            quizContentEl.classList.remove('hidden');
+            setLanguage(currentLanguage);
+        }
+
+        langGuBtn.addEventListener('click', () => setLanguage('gu'));
+        langEnBtn.addEventListener('click', () => setLanguage('en'));
+        nextBtnEl.addEventListener('click', () => {
+            currentQuestionIndex++;
+            loadQuestion();
+        });
+        restartBtnEl.addEventListener('click', startQuiz);
+
+        // Initial load
+        startQuiz();
+    </script>
+
+</body>
+</html>
